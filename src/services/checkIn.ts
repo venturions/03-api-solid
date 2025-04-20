@@ -2,6 +2,7 @@ import { GymsRepository } from 'src/repositories/gyms-repository'
 import { CheckInsRepository } from './../repositories/check-ins-repository'
 import { CheckIn } from 'generated/prisma'
 import { ResourceNotFoundError } from './errors/resource-not-found-error'
+import { getDistanceBetweenCoordinates } from 'src/utils/get-distance-between-coordinates'
 
 interface CheckInServiceRequest {
   userId: string
@@ -23,6 +24,8 @@ export class CheckInService {
   async execute({
     userId,
     gymId,
+    userLatitude,
+    userLongitude,
   }: CheckInServiceRequest): Promise<CheckInServiceResponse> {
     const gym = await this.gymsRepository.findById(gymId)
 
@@ -30,7 +33,22 @@ export class CheckInService {
       throw new ResourceNotFoundError()
     }
 
-    // Check if the gym is within 100m radius
+    const distance = getDistanceBetweenCoordinates(
+      {
+        latitude: userLatitude,
+        longitude: userLongitude,
+      },
+      {
+        latitude: gym.latitude.toNumber(),
+        longitude: gym.longitude.toNumber(),
+      },
+    )
+
+    const MAX_DISTANCE_IN_KILOMETERS = 0.1
+
+    if (distance > MAX_DISTANCE_IN_KILOMETERS) {
+      throw new Error('User must be within 100m radius of the gym')
+    }
 
     const checkInOnSameDate = await this.checkInsRepository.findByUserIdOnDate(
       userId,
