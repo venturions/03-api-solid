@@ -7,9 +7,9 @@ import { PrismaClient } from 'generated/prisma'
 
 const prisma = new PrismaClient()
 
-function generateDatabaseUrl(schema: string) {
+function generateDatabaseURL(schema: string) {
   if (!process.env.DATABASE_URL) {
-    throw new Error('Please provide a DATABASE_URL environment variable')
+    throw new Error('Please provide a DATABASE_URL environment variable.')
   }
 
   const url = new URL(process.env.DATABASE_URL)
@@ -24,7 +24,7 @@ export default <Environment>{
   transformMode: 'ssr',
   async setup() {
     const schema = randomUUID()
-    const databaseURL = generateDatabaseUrl(schema)
+    const databaseURL = generateDatabaseURL(schema)
 
     process.env.DATABASE_URL = databaseURL
 
@@ -33,7 +33,7 @@ export default <Environment>{
     return {
       async teardown() {
         await prisma.$executeRawUnsafe(
-          `DROP SCHEMA IF EXISTS "${schema}" CASCADE;`,
+          `DROP SCHEMA IF EXISTS "${schema}" CASCADE`,
         )
 
         await prisma.$disconnect()
