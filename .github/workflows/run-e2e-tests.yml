@@ -1,4 +1,4 @@
-name: Run E2e Tests
+name: Run E2E Tests
 
 on: [pull_request]
 
@@ -15,21 +15,17 @@ jobs:
         env:
           POSTGRESQL_USERNAME: docker
           POSTGRESQL_PASSWORD: docker
-          POSTGRESQL_DATABASE: ignitenode03
+          POSTGRESQL_DATABASE: apisolid
 
     steps:
       - uses: actions/checkout@v3
+
+      - uses: actions/setup-node@v3
         with:
           node-version: 18
           cache: 'npm'
 
       - run: npm ci
-
-      - name: Apply Migrations
-        run: npx prisma migrate deploy
-
-      - name: Reset Database
-        run: npx prisma migrate reset --force --skip-seed
 
       - run: npm run test:e2e
         env:
