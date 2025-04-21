@@ -5,7 +5,7 @@ import { env } from './env'
 import fastifyJwt from '@fastify/jwt'
 import fastifyCookie from '@fastify/cookie'
 import { gymRoutes } from './http/controllers/gyms/routes'
-import { checkInsRoutes } from './http/controllers/check-ins/route'
+import { checkInsRoutes } from './http/controllers/check-ins/routes'
 
 export const app = fastify()
 
