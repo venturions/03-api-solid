@@ -109,12 +109,6 @@ docker run --name postgres -e POSTGRES_USER=docker -e POSTGRES_PASSWORD=docker -
 
 ---
 
-## 📄 Licença
-
-Este projeto está sob a licença **MIT**. Sinta-se à vontade para utilizá-lo e modificá-lo conforme necessário.
-
----
-
 ## 👨‍💻 Autor
 
 Desenvolvido por Alex da Costa. 🚀
