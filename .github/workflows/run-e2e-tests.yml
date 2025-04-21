@@ -25,6 +25,12 @@ jobs:
 
       - run: npm ci
 
+      - name: Apply Migrations
+        run: npx prisma migrate deploy
+
+      - name: Reset Database
+        run: npx prisma migrate reset --force --skip-seed
+
       - run: npm run test:e2e
         env:
           JWT_SECRET: testing
